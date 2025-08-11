@@ -1,9 +1,7 @@
 
 const CanvasComp = ({
     mountRef,
-    colorChangeHander,
-    moveBoxUp,
-    moveBoxDown
+    colorChangeHander
 }) => {
     // Default export React component
     return (<>
@@ -14,10 +12,10 @@ const CanvasComp = ({
 
         </div>
         <div ref={mountRef} style={{ minHeight: '80vh' }} />
-        <div>
+        {/* <div>
             <button onClick={moveBoxUp}>Move Up</button>
             <button onClick={moveBoxDown}>Move Down</button>
-        </div>
+        </div> */}
         </>
     )
 

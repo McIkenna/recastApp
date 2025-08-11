@@ -2,7 +2,6 @@ const ReactPanel = ({
     selectedInfo,
     selectedId,
 }) => {
-    console.log('selectedInfo', selectedInfo)
   return (
     <div>
         <div className="mt-6">

@@ -10,7 +10,6 @@ export const ParentComponent = () => {
     const [cubeInfos, setCubeInfos] = useState([]); // {id, title, description}
     const [selectedId, setSelectedId] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null)
-    const [selectedPosition, setSelectedPosition] = useState(0)
 
 
     useEffect(() => {
@@ -93,7 +92,7 @@ export const ParentComponent = () => {
                 const hit = intersects[0].object;
                 const found = cubes.find(c => c.mesh === hit);
                 if (found) {
-                    setSelectedPosition(0)
+                    // setSelectedPosition(0)
                     setSelectedId(found.id)
                 };
             } else {
@@ -101,7 +100,31 @@ export const ParentComponent = () => {
             }
         }
 
+        function onPressButton(event) {
+            if (selectedId === null) return; // no cube selected
+            const moveAmount = 0.1; // adjust movement speed
+
+            const cube = cubes[selectedId - 1].mesh;
+            switch (event.key) {
+                case 'ArrowUp':
+                    cube.position.z -= moveAmount;
+                    break;
+                case 'ArrowDown':
+                    cube.position.z += moveAmount;
+                    break;
+                case 'ArrowLeft':
+                    cube.position.x -= moveAmount;
+                    break;
+                case 'ArrowRight':
+                    cube.position.x += moveAmount;
+                    break;
+                default:
+                    break
+            }
+        }
+
         renderer.domElement.addEventListener("pointerdown", onPointerDown);
+        document.addEventListener("keydown", onPressButton);
 
 
         let rafId;
@@ -116,7 +139,7 @@ export const ParentComponent = () => {
                 if (c.id === selectedId) {
                     c.mesh.scale.set(1.3, 1.3, 1.3);
                     c.mesh.material.color.set(selectedColor);
-                    c.mesh.position.y = selectedPosition;
+                    // c.mesh.position.y = selectedPosition;
                 } else {
                     c.mesh.scale.set(1, 1, 1);
                     c.mesh.material.color.set(0xff9800);
@@ -154,19 +177,14 @@ export const ParentComponent = () => {
             container.removeChild(renderer.domElement);
         };
         // NOTE: we intentionally depend on selectedId so the highlight updates
-    }, [selectedId, selectedColor, selectedPosition]);
+    }, [selectedId, selectedColor]);
 
 
     const colorChangeHander = (id) => {
         setSelectedColor(id)
     }
 
-    const moveBoxUp = () => {
-        setSelectedPosition(selectedPosition => selectedPosition + 0.02)
-    }
-    const moveBoxDown = () => {
-        setSelectedPosition(selectedPosition => selectedPosition - 0.02)
-    }
+   
 
     const selectedInfo = cubeInfos.find(c => c.id === selectedId) || null;
 
@@ -178,8 +196,6 @@ export const ParentComponent = () => {
                     <CanvasComp
                         mountRef={mountRef}
                         colorChangeHander={colorChangeHander}
-                        moveBoxDown={moveBoxDown}
-                        moveBoxUp={moveBoxUp}
 
                     />
 
