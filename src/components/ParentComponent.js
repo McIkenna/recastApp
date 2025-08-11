@@ -11,19 +11,18 @@ export const ParentComponent = () => {
     const [selectedId, setSelectedId] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null)
     const [selectedPosition, setSelectedPosition] = useState(0)
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf7f7f7);
-    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-    const dir = new THREE.DirectionalLight(0xffffff, 0.5);
-    
-    
-    dir.position.set(5, 10, 7);
-    
-    // Adding lights to the scene
-    scene.add(ambient);
-    scene.add(dir);
-   
+
+
     useEffect(() => {
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf7f7f7);
+        const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+        const dir = new THREE.DirectionalLight(0xffffff, 0.5);
+
+
+        dir.position.set(5, 10, 7);
+
+
         const container = mountRef.current;
         if (!container) return;
         // camera, renderer
@@ -31,9 +30,12 @@ export const ParentComponent = () => {
         const height = container.clientHeight;
         const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
         camera.position.set(0, 2, 8);
-        
 
-        
+
+        // Adding lights to the scene
+        scene.add(ambient);
+        scene.add(dir);
+
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(width, height);
         renderer.setPixelRatio(window.devicePixelRatio || 1);
@@ -41,7 +43,7 @@ export const ParentComponent = () => {
 
 
         // Create 3 cubes spaced out equally
-        
+
         const cubeCount = 3
         const cubes = [];
         const infos = [];
@@ -57,12 +59,13 @@ export const ParentComponent = () => {
             mesh.position.set(x, 0.5, z);
 
             scene.add(mesh);
-            cubes.push({ id: `${i+1}`, mesh });
+            cubes.push({ id: `${i + 1}`, mesh });
 
-            infos.push({ 
-                id: `${i+1}`, 
-                title: `Cube ${i + 1}`, 
-                description: `This is the description for ${i + 1}` });
+            infos.push({
+                id: `${i + 1}`,
+                title: `Cube ${i + 1}`,
+                description: `This is the description for ${i + 1}`
+            });
         }
         // Save initial infos to state
         setCubeInfos(infos);
@@ -100,11 +103,11 @@ export const ParentComponent = () => {
 
         renderer.domElement.addEventListener("pointerdown", onPointerDown);
 
-        
+
         let rafId;
         function animate() {
             rafId = requestAnimationFrame(animate);
-            
+
             // rotate each cube a bit
             cubes.forEach((c, idx) => {
                 // c.mesh.rotation.x += 0.006 + idx * 0.002;
@@ -153,8 +156,8 @@ export const ParentComponent = () => {
         // NOTE: we intentionally depend on selectedId so the highlight updates
     }, [selectedId, selectedColor, selectedPosition]);
 
-  
-    const colorChangeHander = (id)=>{
+
+    const colorChangeHander = (id) => {
         setSelectedColor(id)
     }
 
