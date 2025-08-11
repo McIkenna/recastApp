@@ -18,9 +18,7 @@ export const ParentComponent = () => {
     
     
     dir.position.set(5, 10, 7);
-    const cubeCount = 3
-    const cubes = [];
-    const infos = [];
+    
     // Adding lights to the scene
     scene.add(ambient);
     scene.add(dir);
@@ -44,6 +42,9 @@ export const ParentComponent = () => {
 
         // Create 3 cubes spaced out equally
         
+        const cubeCount = 3
+        const cubes = [];
+        const infos = [];
         for (let i = 0; i < cubeCount; i++) {
             const geo = new THREE.BoxGeometry(1, 1, 1);
             const mat = new THREE.MeshStandardMaterial({ color: new THREE.Color().setHSL(Math.random(), 0.6, 0.5) });
