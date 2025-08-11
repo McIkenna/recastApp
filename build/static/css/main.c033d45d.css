@@ -1,0 +1,2 @@
+body{margin:0}.App{align-items:center;background-color:#202025;color:#fff;font-family:Arial,sans-serif;height:100vh;overflow:hidden;text-align:center;width:100%}.container{grid-gap:20px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:100px auto 50px;height:100%;width:100%}.canvas-element{grid-column:1;grid-row:1;padding:5%}.reactpanel-element{grid-column:2;grid-row:1;padding:5%}
+/*# sourceMappingURL=main.c033d45d.css.map*/
