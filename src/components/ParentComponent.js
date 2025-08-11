@@ -61,7 +61,7 @@ export const ParentComponent = () => {
             infos.push({ 
                 id: `${i+1}`, 
                 title: `Cube ${i + 1}`, 
-                description: "" });
+                description: `This is the description for ${i + 1}` });
         }
         // Save initial infos to state
         setCubeInfos(infos);

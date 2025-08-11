@@ -16,6 +16,7 @@ const ReactPanel = ({
                 <div className="text-sm text-gray-700 mb-1">
                     <h1>{selectedId}</h1>
                     <h1>{selectedInfo.title}</h1>
+                    <h3>{selectedInfo.description}</h3>
                     
                 </div>
            
