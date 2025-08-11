@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import ReactPanel from "./ReactPanel";
 import CanvasComp from "./CanvasComp";
@@ -151,11 +151,6 @@ export const ParentComponent = () => {
         };
         // NOTE: we intentionally depend on selectedId so the highlight updates
     }, [selectedId, selectedColor, selectedPosition]);
-
-    // Update title/description for selected cube
-    const updateSelectedField = (field, value)  => {
-        setCubeInfos(prev => prev.map(info => (info.id === selectedId ? { ...info, [field]: value } : info)));
-    }
 
   
     const colorChangeHander = (id)=>{
