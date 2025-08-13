@@ -233,8 +233,8 @@ export const ParentComponent = () => {
         };
     }, [selectedId, selectedColor]);
 
-    const colorChangeHandler = (id) => {
-        setSelectedColor(id);
+    const colorChangeHandler = (color) => {
+        setSelectedColor(color);
     }
 
 
