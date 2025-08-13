@@ -69,7 +69,7 @@ export const ParentComponent = () => {
         // Save initial infos to state
         setCubeInfos(infos);
 
-        // Ground (subtle)
+        // Ground Plane
         const groundGeo = new THREE.PlaneGeometry(30, 30);
         const groundMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0, roughness: 1 });
         const ground = new THREE.Mesh(groundGeo, groundMat);
@@ -80,6 +80,10 @@ export const ParentComponent = () => {
         // Raycaster for click selection of Objects
         const raycaster = new THREE.Raycaster();
         const pointer = new THREE.Vector2();
+        let isDragging = false;
+        let dragOffset = new THREE.Vector3();
+        let dragPlane = new THREE.Plane();
+        let dragIntersection = new THREE.Vector3();
 
         function onPointerDown(event) {
             const rect = renderer.domElement.getBoundingClientRect();
@@ -88,16 +92,57 @@ export const ParentComponent = () => {
 
             raycaster.setFromCamera(pointer, camera);
             const intersects = raycaster.intersectObjects(cubes.map(c => c.mesh));
+
             if (intersects.length > 0) {
                 const hit = intersects[0].object;
                 const found = cubes.find(c => c.mesh === hit);
                 if (found) {
-                    // setSelectedPosition(0)
-                    setSelectedId(found.id)
-                };
-            } else {
+                    setSelectedId(found.id);
+
+                    // Start dragging the cube
+                    isDragging = true;
+
+                    // Create a plane parallel to the camera at the cube's Y position
+                    const normal = new THREE.Vector3(0, 1, 0);
+                    dragPlane.setFromNormalAndCoplanarPoint(normal, hit.position);
+
+                    // Calculate offset between mouse and cube center
+                    raycaster.ray.intersectPlane(dragPlane, dragIntersection);
+                    dragOffset.subVectors(hit.position, dragIntersection);
+
+                    // Prevent default to avoid text selection
+                    event.preventDefault();
+                }
+            } 
+            else {
                 setSelectedId(null);
+                isDragging = false;
             }
+        }
+
+        function onPointerMove(event) {
+            if (!isDragging || selectedId === null) return;
+
+            const rect = renderer.domElement.getBoundingClientRect();
+            pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(pointer, camera);
+
+            // Find intersection with drag plane
+            if (raycaster.ray.intersectPlane(dragPlane, dragIntersection)) {
+                const cube = cubes[selectedId - 1].mesh;
+
+                // Apply the offset to maintain smooth dragging
+                cube.position.copy(dragIntersection.add(dragOffset));
+
+                // Keep the cube above ground
+                cube.position.y = Math.max(cube.position.y, 0.5);
+            }
+        }
+
+        function onPointerUp(event) {
+            isDragging = false;
         }
 
         function onPressButton(event) {
@@ -118,14 +163,23 @@ export const ParentComponent = () => {
                 case 'ArrowRight':
                     cube.position.x += moveAmount;
                     break;
+                case 'W':
+                case 'w':
+                    cube.position.y += moveAmount;
+                    break;
+                case 'S':
+                case 's':
+                    cube.position.y -= moveAmount;
+                    break;
                 default:
-                    break
+                    break;
             }
         }
 
         renderer.domElement.addEventListener("pointerdown", onPointerDown);
+        renderer.domElement.addEventListener("pointermove", onPointerMove);
+        renderer.domElement.addEventListener("pointerup", onPointerUp);
         document.addEventListener("keydown", onPressButton);
-
 
         let rafId;
         function animate() {
@@ -160,10 +214,11 @@ export const ParentComponent = () => {
         }
         window.addEventListener("resize", onResize);
 
-        // Cleanup
+        //Cleanup animation
         return () => {
             cancelAnimationFrame(rafId);
-            renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+            // renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+            document.removeEventListener("keydown", onPressButton);
             window.removeEventListener("resize", onResize);
             cubes.forEach(c => {
                 c.mesh.geometry.dispose();
@@ -176,15 +231,12 @@ export const ParentComponent = () => {
             renderer.dispose();
             container.removeChild(renderer.domElement);
         };
-        // NOTE: we intentionally depend on selectedId so the highlight updates
     }, [selectedId, selectedColor]);
 
-
-    const colorChangeHander = (id) => {
-        setSelectedColor(id)
+    const colorChangeHandler = (id) => {
+        setSelectedColor(id);
     }
 
-   
 
     const selectedInfo = cubeInfos.find(c => c.id === selectedId) || null;
 
@@ -195,7 +247,7 @@ export const ParentComponent = () => {
 
                     <CanvasComp
                         mountRef={mountRef}
-                        colorChangeHander={colorChangeHander}
+                        colorChangeHandler={colorChangeHandler}
 
                     />
 

@@ -1,14 +1,14 @@
 
 const CanvasComp = ({
     mountRef,
-    colorChangeHander
+    colorChangeHandler
 }) => {
     // Default export React component
     return (<>
         <div>
-            <button id='yellow' onClick={(e) =>{colorChangeHander(e.target.id)}}>Yellow</button>
-            <button id='green' onClick={(e) =>{colorChangeHander(e.target.id)}}>Green</button>
-            <button id='blue' onClick={(e) =>{colorChangeHander(e.target.id)}}>Blue</button>
+            <button id='yellow' onClick={(e) =>{colorChangeHandler(e.target.id)}}>Yellow</button>
+            <button id='green' onClick={(e) =>{colorChangeHandler(e.target.id)}}>Green</button>
+            <button id='blue' onClick={(e) =>{colorChangeHandler(e.target.id)}}>Blue</button>
 
         </div>
         <div ref={mountRef} style={{ minHeight: '80vh' }} />
