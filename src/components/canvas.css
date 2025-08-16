@@ -10,11 +10,67 @@ grid-gap: 20px;
 .canvas-element{
   grid-column: 1;
   grid-row: 1;
-  padding: 5%;
+  padding: 2%;
 }
 
 .reactpanel-element{
   grid-column: 2;
   grid-row: 1;
-   padding: 5%;
+   padding: 2%;
+}
+.info{
+  position: fixed;
+}
+
+.info-table {
+  background-color: rgb(124, 123, 123);
+  height: 60vh;
+  width: 100%;
+  overflow: scroll;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* margin: 1rem 0; */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background-color: #fafafa;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+table th,
+table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f7ff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+table td:first-child {
+  font-weight: 500;
+  color: #555;
+}
+
+.text-headers{
+  align-items: center;
+  /* display: flex; */
+  justify-content: center;
 }

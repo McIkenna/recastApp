@@ -1,24 +1,54 @@
 const ReactPanel = ({
-    selectedInfo,
-    selectedId,
+  selectedInfo,
+  selectedId,
 }) => {
+
   return (
     <div>
-        <div className="mt-6">
-          <h3 className="text-lg font-medium">Selected Cube</h3>
-           <p className="text-sm text-gray-500 mt-2">You will have to select color first before selecting cube for a color change</p>
-          {!selectedInfo ? (
-            <p className="text-sm text-gray-500 mt-2">Click any cube in the canvas</p>
-          ) : (
-                <div className="text-sm text-gray-700 mb-1">
-                    <h1>{selectedId}</h1>
-                    <h1>{selectedInfo.title}</h1>
-                    <h3>{selectedInfo.description}</h3>
-                    
-                </div>
-           
-          )}
+      <div >
+        <h3>Selected Cube</h3>
+        <p>You will have to select color first before selecting cube for a color change</p>
+        {!selectedInfo ? (
+          <p>Click any cube in the canvas</p>
+        ) : (<div>
+          <div className="info">
+            <div className="text-headers">
+              <h3>{selectedId} : {selectedInfo.title}</h3>
+              <p>{selectedInfo.description}</p>
+            </div>
+            <div className="info-table">
+            <table>
+              {Object.entries(selectedInfo?.mesh)?.map(([key, value]) => (
+                // console.log(key, typeof value)
+                typeof value !== 'object' ?
+                  <tr>
+                    <td>{key}</td>
+                    <td>{String(value)}</td>
+                  </tr> :
+                  <tr>
+                    <td>{key}</td>
+                    <td>
+                      {
+                        Object.entries(value).map(([innerKey, innerValue]) => (
+                          // console.log('innerValue', innerValue)
+                          typeof innerValue !== 'object' ?
+                            <tr>
+                              <td>{innerKey}</td>
+                              <td>{String(innerValue)}</td>
+                            </tr> : null
+
+                        ))
+                      }
+                    </td>
+                  </tr>
+              )
+              )}
+            </table>
+            </div>
+          </div>
         </div>
+        )}
+      </div>
     </div>
   )
 }
