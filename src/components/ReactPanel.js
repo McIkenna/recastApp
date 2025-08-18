@@ -18,6 +18,7 @@ const ReactPanel = ({
             </div>
             <div className="info-table">
             <table>
+              <tbody>
               {Object.entries(selectedInfo?.mesh)?.map(([key, value]) => (
                 // console.log(key, typeof value)
                 typeof value !== 'object' ?
@@ -43,6 +44,7 @@ const ReactPanel = ({
                   </tr>
               )
               )}
+              </tbody>
             </table>
             </div>
           </div>
