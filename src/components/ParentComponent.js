@@ -42,7 +42,7 @@ export const ParentComponent = () => {
         const width = container.clientWidth;
         const height = container.clientHeight;
 
-        const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(60, width / height, 1, 1000);
         camera.position.set(0, 2, 8);
         cameraRef.current = camera;
 
@@ -53,15 +53,15 @@ export const ParentComponent = () => {
         rendererRef.current = renderer;
 
         // Ground Plane
-        const groundGeo = new THREE.PlaneGeometry(30, 30);
-        const groundMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0, roughness: 1 });
+        const groundGeo = new THREE.PlaneGeometry(25, 25);
+        const groundMat = new THREE.MeshStandardMaterial({ color: 0xfefefe, metalness: 0, roughness: 1 });
         const ground = new THREE.Mesh(groundGeo, groundMat);
         ground.rotation.x = -Math.PI / 2;
         scene.add(ground);
 
         // Create cubes once
         const cubeCount = 4;
-        const spacing = 2.2;
+        const spacing = 2.5;
         const cubes = [];
         const infos = [];
 
