@@ -112,8 +112,8 @@ export const ParentComponent = () => {
             const intersects = raycaster.intersectObjects(cubesRef.current.map(c => c.mesh));
 
             if (intersects.length > 0) {
-                const hit = intersects[0].object;
-                const found = cubesRef.current.find(c => c.mesh === hit);
+                const intersectCube = intersects[0].object;
+                const found = cubesRef.current.find(c => c.mesh === intersectCube);
                 if (found) {
                     setSelectedId(found.id);
                     selectedRef.current.id = found.id;
@@ -123,12 +123,12 @@ export const ParentComponent = () => {
                     // created a drag plane parallel to ground through current position
                     dragPlaneRef.current.setFromNormalAndCoplanarPoint(
                         new THREE.Vector3(0, 1, 0),
-                        hit.position
+                        intersectCube.position
                     );
 
                     // compute offset so that the cube doesn't change positon suddenly
                     raycaster.ray.intersectPlane(dragPlaneRef.current, dragIntersectionRef.current);
-                    dragOffsetRef.current.subVectors(hit.position, dragIntersectionRef.current);
+                    dragOffsetRef.current.subVectors(intersectCube.position, dragIntersectionRef.current);
 
                     event.preventDefault();
                 }
@@ -220,6 +220,9 @@ export const ParentComponent = () => {
 
             cubesRef.current.forEach(({ id, mesh }) => {
                 const saved = positionsRef.current.get(id);
+                // mesh.rotation.x += 0.006 + id * 0.002;
+                // mesh.rotation.z += 0.008 + id * 0.003;
+
                 if (saved) {
                     mesh.position.copy(saved.position);
                     mesh.material.color.copy(saved.color);

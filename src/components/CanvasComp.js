@@ -3,7 +3,6 @@ const CanvasComp = ({
     colorChangeHandler,
     selectedColor
 }) => {
-    // Default export React component
     const activeStyle = {
         backgroundColor: 'black',
         color: 'white'
